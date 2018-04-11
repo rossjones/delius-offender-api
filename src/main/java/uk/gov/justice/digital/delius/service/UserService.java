@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.justice.digital.delius.data.api.AccessLimitation;
 import uk.gov.justice.digital.delius.data.api.OffenderDetail;
-import uk.gov.justice.digital.delius.jpa.national.entity.ProbationArea;
-import uk.gov.justice.digital.delius.jpa.national.entity.User;
+import uk.gov.justice.digital.delius.jpa.entity.ProbationArea;
+import uk.gov.justice.digital.delius.jpa.entity.User;
 import uk.gov.justice.digital.delius.service.wrapper.UserRepositoryWrapper;
 
 import java.util.Collections;

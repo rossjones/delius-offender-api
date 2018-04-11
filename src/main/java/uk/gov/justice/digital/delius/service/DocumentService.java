@@ -3,10 +3,9 @@ package uk.gov.justice.digital.delius.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.justice.digital.delius.data.api.DocumentLink;
-import uk.gov.justice.digital.delius.jpa.national.repository.DocumentRepository;
-import uk.gov.justice.digital.delius.jpa.oracle.annotations.NationalUserOverride;
-import uk.gov.justice.digital.delius.jpa.standard.entity.Offender;
-import uk.gov.justice.digital.delius.jpa.standard.repository.OffenderRepository;
+import uk.gov.justice.digital.delius.jpa.entity.Offender;
+import uk.gov.justice.digital.delius.jpa.repository.DocumentRepository;
+import uk.gov.justice.digital.delius.jpa.repository.OffenderRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -24,7 +23,6 @@ public class DocumentService {
         this.offenderRepository = offenderRepository;
     }
 
-    @NationalUserOverride
     public void insertDocument(DocumentLink documentLink) {
         Long probationAreaId = documentRepository.lookupProbationArea(documentLink.getProbationAreaCode());
 
@@ -34,7 +32,7 @@ public class DocumentService {
 
         LocalDateTime now = LocalDateTime.now();
 
-        uk.gov.justice.digital.delius.jpa.national.entity.Document documentEntity = uk.gov.justice.digital.delius.jpa.national.entity.Document.builder()
+        uk.gov.justice.digital.delius.jpa.entity.Document documentEntity = uk.gov.justice.digital.delius.jpa.entity.Document.builder()
                 .offenderId(maybeOffender.get().getOffenderId())
                 .alfrescoId(documentLink.getAlfrescoId())
                 .documentName(documentLink.getDocumentName())

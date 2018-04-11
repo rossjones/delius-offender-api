@@ -48,6 +48,7 @@ repositories {
 
 configurations {
     compile.exclude module: "spring-boot-starter-tomcat"
+    compile.exclude module: "tomcat-jdbc"
 }
 
 // In this section you declare the dependencies for your production and test code

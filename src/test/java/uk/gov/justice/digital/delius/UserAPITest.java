@@ -17,7 +17,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.justice.digital.delius.data.api.UserAndLdap;
-import uk.gov.justice.digital.delius.jpa.national.entity.User;
+import uk.gov.justice.digital.delius.jpa.entity.User;
 import uk.gov.justice.digital.delius.jwt.Jwt;
 import uk.gov.justice.digital.delius.service.wrapper.UserRepositoryWrapper;
 import uk.gov.justice.digital.delius.user.UserData;

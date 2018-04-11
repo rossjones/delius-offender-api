@@ -16,12 +16,12 @@ import uk.gov.justice.digital.delius.data.api.OffenderManager;
 import uk.gov.justice.digital.delius.data.api.OffenderProfile;
 import uk.gov.justice.digital.delius.data.api.PhoneNumber;
 import uk.gov.justice.digital.delius.data.api.Team;
-import uk.gov.justice.digital.delius.jpa.standard.entity.Offender;
-import uk.gov.justice.digital.delius.jpa.standard.entity.OffenderAddress;
-import uk.gov.justice.digital.delius.jpa.standard.entity.OffenderAlias;
-import uk.gov.justice.digital.delius.jpa.standard.entity.PartitionArea;
-import uk.gov.justice.digital.delius.jpa.standard.entity.ProbationArea;
-import uk.gov.justice.digital.delius.jpa.standard.entity.StandardReference;
+import uk.gov.justice.digital.delius.jpa.entity.Offender;
+import uk.gov.justice.digital.delius.jpa.entity.OffenderAddress;
+import uk.gov.justice.digital.delius.jpa.entity.OffenderAlias;
+import uk.gov.justice.digital.delius.jpa.entity.PartitionArea;
+import uk.gov.justice.digital.delius.jpa.entity.ProbationArea;
+import uk.gov.justice.digital.delius.jpa.entity.StandardReference;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -175,14 +175,14 @@ public class OffenderTransformer {
                 .collect(Collectors.toList());
     }
 
-    public List<OffenderManager> offenderManagersOf(List<uk.gov.justice.digital.delius.jpa.standard.entity.OffenderManager> offenderManagers) {
+    public List<OffenderManager> offenderManagersOf(List<uk.gov.justice.digital.delius.jpa.entity.OffenderManager> offenderManagers) {
         return offenderManagers.stream()
-                .sorted(Comparator.comparing(uk.gov.justice.digital.delius.jpa.standard.entity.OffenderManager::getAllocationDate)
+                .sorted(Comparator.comparing(uk.gov.justice.digital.delius.jpa.entity.OffenderManager::getAllocationDate)
                         .reversed())
                 .map(this::offenderManagerOf).collect(Collectors.toList());
     }
 
-    private OffenderManager offenderManagerOf(uk.gov.justice.digital.delius.jpa.standard.entity.OffenderManager offenderManager) {
+    private OffenderManager offenderManagerOf(uk.gov.justice.digital.delius.jpa.entity.OffenderManager offenderManager) {
         return OffenderManager.builder()
                 .partitionArea(partitionAreaOf(offenderManager))
                 .softDeleted(Integer.valueOf(1).equals(offenderManager.getSoftDeleted()))
@@ -210,7 +210,7 @@ public class OffenderTransformer {
                 .build();
     }
 
-    private Team teamOf(uk.gov.justice.digital.delius.jpa.standard.entity.OffenderManager offenderManager) {
+    private Team teamOf(uk.gov.justice.digital.delius.jpa.entity.OffenderManager offenderManager) {
         return Optional.ofNullable(offenderManager.getTrustProviderTeam())
                 .map(tpt -> Team.builder()
                         .description(tpt.getDescription())
@@ -231,7 +231,7 @@ public class OffenderTransformer {
                 .orElse(null);
     }
 
-    private String partitionAreaOf(uk.gov.justice.digital.delius.jpa.standard.entity.OffenderManager offenderManager) {
+    private String partitionAreaOf(uk.gov.justice.digital.delius.jpa.entity.OffenderManager offenderManager) {
         return Optional.ofNullable(offenderManager.getPartitionArea())
                 .map(PartitionArea::getArea)
                 .orElse(null);

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.justice.digital.delius.controller.filters.ContactFilter;
 import uk.gov.justice.digital.delius.data.api.Contact;
-import uk.gov.justice.digital.delius.jpa.standard.repository.ContactRepository;
+import uk.gov.justice.digital.delius.jpa.repository.ContactRepository;
 import uk.gov.justice.digital.delius.transformers.ContactTransformer;
 
 import java.util.List;
