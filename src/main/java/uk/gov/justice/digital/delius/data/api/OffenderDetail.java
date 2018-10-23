@@ -24,6 +24,7 @@ public class OffenderDetail {
     private OffenderProfile offenderProfile;
     private List<OffenderAlias> offenderAliases;
     private List<OffenderManager> offenderManagers;
+    private List<OgrsAssessment> ogrsAssessments;
     private Boolean softDeleted;
     private String currentDisposal;
     private String partitionArea;
