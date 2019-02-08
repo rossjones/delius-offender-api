@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.justice.digital.delius.data.api.OffenderDetail;
 import uk.gov.justice.digital.delius.data.api.Conviction;
+import uk.gov.justice.digital.delius.data.api.Custody;
 import uk.gov.justice.digital.delius.jwt.JwtValidation;
 import uk.gov.justice.digital.delius.service.OffenderService;
 import uk.gov.justice.digital.delius.service.ConvictionService;
@@ -57,6 +58,19 @@ public class ConvictionController {
         return convictionsResponseEntityOf(offenderService.offenderIdOfCrn(crn));
     }
 
+    @RequestMapping(value = "offenders/offenderId/{offenderId}/convictions/{convictionId}/custody", method = RequestMethod.GET)
+    @JwtValidation
+    public ResponseEntity<Custody> getOffenderCustodyByOffenderIdAndConvictionId(final @RequestHeader HttpHeaders httpHeaders,
+                                                                                 final @PathVariable("offenderId") Long offenderId,
+                                                                                 final @PathVariable("convictionId") Long convictionId) {
+
+        log.info("Call to getOffenderCustodyByOffenderIdAndConvictionId");
+        Optional<OffenderDetail> maybeOffender = offenderService.getOffenderByOffenderId(offenderId);
+        return custodyResponseEntityOf(maybeOffender.map(OffenderDetail::getOffenderId), convictionId);
+    }
+
+
+
     private ResponseEntity<List<Conviction>> convictionsResponseEntityOf(Optional<Long> maybeOffenderId) {
         return maybeOffenderId
             .map(offenderId -> new ResponseEntity<>(convictionService.convictionsFor(offenderId), HttpStatus.OK))
@@ -64,6 +78,20 @@ public class ConvictionController {
     }
 
     private ResponseEntity<List<Conviction>> notFound() {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    private ResponseEntity<Custody> custodyResponseEntityOf(Optional<Long> maybeOffenderId, Long convictionId) {
+        return maybeOffenderId
+                .map(offenderId -> convictionService.custodyFor(offenderId, convictionId))
+                .map(maybeCustody -> maybeCustody
+                        .map(custody -> new ResponseEntity<>(custody, HttpStatus.OK))
+                        .orElseGet(this::custodyNotFound))
+                .orElseGet(this::custodyNotFound);
+
+    }
+
+    private ResponseEntity<Custody> custodyNotFound() {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

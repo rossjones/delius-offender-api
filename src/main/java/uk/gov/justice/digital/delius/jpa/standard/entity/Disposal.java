@@ -58,4 +58,9 @@ public class Disposal {
     @ManyToOne
     @JoinColumn(name = "DISPOSAL_TYPE_ID")
     private DisposalType disposalType;
+
+    @OneToOne(mappedBy = "disposal")
+    private Custody custody;
+
+
 }
